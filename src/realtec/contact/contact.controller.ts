@@ -20,10 +20,10 @@ export class ContactController {
             await this.contactService.sendCurriculumToRh({ email, message, name, phone, vaga })
         } catch(err) {
             if (err instanceof ExpectedError) {
-                throw new HttpException(err.error, err.code)
+                return new HttpException(err.error, err.code)
             }
 
-            throw new HttpException('Tivemos um erro inesperado', HttpStatus.INTERNAL_SERVER_ERROR)
+            return new HttpException('Tivemos um erro inesperado', HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
 }
