@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config'
 
 import * as nodemailer from 'nodemailer'
@@ -17,6 +17,7 @@ export class EmailService {
         const { email:noReplyEmail, pass:noReplyPass } = configService.get('realtec.noReply')
         const { port, host } = configService.get('realtec.emailConfig')
         this.noReplayEmail = noReplyEmail
+        console.log('data', port, host, noReplyEmail)
         this.transporter = nodemailer.createTransport({
             host,
             port,
@@ -40,11 +41,11 @@ export class EmailService {
         const sended = await this.transporter.sendMail(mailOptions)
         .catch(err => {
             console.log(err)
-            throw new ExpectedError({ code: 1, log: 'Não foi possível enviar o email', error: err })
+            throw new ExpectedError({ code: HttpStatus.INTERNAL_SERVER_ERROR, log: 'Não foi possível enviar o email', error: err })
         })
 
         if (!sended.accepted.find(el => el === message.to)) {
-            throw new ExpectedError({ code: 1, log: 'Email não aceito' })
+            throw new ExpectedError({ code: HttpStatus.INTERNAL_SERVER_ERROR, log: 'Email não aceito' })
         }
     }
 }
