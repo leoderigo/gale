@@ -11,7 +11,8 @@ export default () => ({
         },
         emailConfig: {
             port: parseInt(process.env.REALTEC_EMAIL_PORT),
-            host: process.env.REALTEC_EMAIL_HOST
+            host: process.env.REALTEC_EMAIL_HOST,
+            service: process.env.REALTEC_EMAIL_SERVICE,
         }
     }
 })

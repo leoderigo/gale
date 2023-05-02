@@ -15,10 +15,11 @@ export class EmailService {
         configService: ConfigService
     ) {
         const { email:noReplyEmail, pass:noReplyPass } = configService.get('realtec.noReply')
-        const { port, host } = configService.get('realtec.emailConfig')
+        const { port, host, service } = configService.get('realtec.emailConfig')
         this.noReplayEmail = noReplyEmail
         console.log('data', port, host, noReplyEmail)
         this.transporter = nodemailer.createTransport({
+            service,
             host,
             port,
             auth: {
